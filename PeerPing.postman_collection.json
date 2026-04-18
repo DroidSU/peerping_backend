@@ -1,0 +1,293 @@
+{
+    "info": {
+        "name": "PeerPing API",
+        "description": "Postman collection for the PeerPing backend chat API.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        " "
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Send OTP",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"phoneNumber\": \"{{phoneNumber}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/send-otp",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "send-otp"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Verify OTP",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"phoneNumber\": \"{{phoneNumber}}\",\n  \"otp\": \"{{otp}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/verify-otp",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "verify-otp"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Search Users",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{jwt}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/users/search?phoneNumber={{searchPhoneNumber}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "users",
+                        "search"
+                    ],
+                    "query": [
+                        {
+                            "key": "phoneNumber",
+                            "value": "{{searchPhoneNumber}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update Device Token",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{jwt}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"fcmToken\": \"{{fcmToken}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/users/device-token",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "users",
+                        "device-token"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Send Message",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{jwt}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"recipientId\": \"{{recipientId}}\",\n  \"messageId\": \"{{messageId}}\",\n  \"body\": \"{{messageBody}}\",\n  \"clientTimestamp\": \"{{clientTimestamp}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/messages/send",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "messages",
+                        "send"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Fetch Messages",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{jwt}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/messages/{{conversationId}}?after={{afterTimestamp}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "messages",
+                        "{{conversationId}}"
+                    ],
+                    "query": [
+                        {
+                            "key": "after",
+                            "value": "{{afterTimestamp}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update Message Status",
+            "request": {
+                "method": "PATCH",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{jwt}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"status\": \"{{messageStatus}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/messages/{{messageId}}/status",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "messages",
+                        "{{messageId}}",
+                        "status"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000"
+        },
+        {
+            "key": "phoneNumber",
+            "value": "+1234567890"
+        },
+        {
+            "key": "otp",
+            "value": "123456"
+        },
+        {
+            "key": "jwt",
+            "value": ""
+        },
+        {
+            "key": "searchPhoneNumber",
+            "value": "+123"
+        },
+        {
+            "key": "fcmToken",
+            "value": "your_fcm_token_here"
+        },
+        {
+            "key": "recipientId",
+            "value": ""
+        },
+        {
+            "key": "messageId",
+            "value": "uuid-v4-message-id"
+        },
+        {
+            "key": "messageBody",
+            "value": "Hello from PeerPing"
+        },
+        {
+            "key": "clientTimestamp",
+            "value": "2026-04-17T12:00:00.000Z"
+        },
+        {
+            "key": "conversationId",
+            "value": ""
+        },
+        {
+            "key": "afterTimestamp",
+            "value": "2026-04-17T00:00:00.000Z"
+        },
+        {
+            "key": "messageStatus",
+            "value": "delivered"
+        }
+    ]
+}

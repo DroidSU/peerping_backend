@@ -1,0 +1,27 @@
+{
+    "name": "peerping-backend",
+    "version": "1.0.0",
+    "description": "Chat backend with OTP auth, Socket.IO, MongoDB, and FCM integration.",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "nodemon src/index.js"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "express-validator": "^7.0.1",
+        "firebase-admin": "^11.10.1",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^7.7.0",
+        "morgan": "^1.10.0",
+        "socket.io": "^4.7.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    }
+}
