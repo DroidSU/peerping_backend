@@ -2,9 +2,17 @@ const express = require( 'express' );
 const { body, param, query } = require( 'express-validator' );
 const { authenticate } = require( '../middleware/authMiddleware' );
 const { validateRequest } = require( '../middleware/validateRequest' );
-const { sendMessage, getMessages, setMessageStatus } = require( '../controllers/messageController' );
+const { sendMessage, getMessages, setMessageStatus, getUserConversations } = require( '../controllers/messageController' );
 
 const router = express.Router();
+
+router.get(
+    '/conversations',
+    authenticate,
+    [ query( 'limit' ).optional().isInt( { min: 1, max: 100 } ) ],
+    validateRequest,
+    getUserConversations
+);
 
 router.post(
     '/send',

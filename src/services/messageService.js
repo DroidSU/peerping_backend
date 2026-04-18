@@ -101,4 +101,29 @@ const updateMessageStatus = async ( { messageId, status, userId } ) => {
     return message;
 };
 
-module.exports = { createMessage, fetchMessages, updateMessageStatus };
+const fetchUserConversations = async ( { userId, limit = 50 } ) => {
+    const conversations = await Conversation.find( { participants: userId } )
+        .populate( 'participants', 'name phoneNumber' )
+        .sort( { updatedAt: -1 } )
+        .limit( limit )
+        .lean();
+
+    // Transform to include other participant info
+    return conversations.map( conv => {
+        const otherParticipant = conv.participants.find( p => p._id.toString() !== userId.toString() );
+        return {
+            _id: conv._id,
+            participantKey: conv.participantKey,
+            otherParticipant: {
+                _id: otherParticipant._id,
+                name: otherParticipant.name,
+                phoneNumber: otherParticipant.phoneNumber,
+            },
+            lastMessage: conv.lastMessage,
+            updatedAt: conv.updatedAt,
+            createdAt: conv.createdAt,
+        };
+    } );
+};
+
+module.exports = { createMessage, fetchMessages, updateMessageStatus, fetchUserConversations };

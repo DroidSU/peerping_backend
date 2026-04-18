@@ -234,6 +234,38 @@
                 }
             },
             "response": []
+        },
+        {
+            "name": "Get User Conversations",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{jwt}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/messages/conversations?limit={{conversationsLimit}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "messages",
+                        "conversations"
+                    ],
+                    "query": [
+                        {
+                            "key": "limit",
+                            "value": "{{conversationsLimit}}",
+                            "description": "Maximum number of conversations to return (1-100, default: 50)"
+                        }
+                    ]
+                },
+                "description": "Get all conversations for the authenticated user, sorted by most recent activity."
+            },
+            "response": []
         }
     ],
     "variable": [
@@ -288,6 +320,10 @@
         {
             "key": "messageStatus",
             "value": "delivered"
+        },
+        {
+            "key": "conversationsLimit",
+            "value": "50"
         }
     ]
 }

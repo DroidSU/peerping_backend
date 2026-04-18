@@ -1,4 +1,4 @@
-const { createMessage, fetchMessages, updateMessageStatus } = require( '../services/messageService' );
+const { createMessage, fetchMessages, updateMessageStatus, fetchUserConversations } = require( '../services/messageService' );
 
 const sendMessage = async ( req, res, next ) => {
     try {
@@ -48,4 +48,17 @@ const setMessageStatus = async ( req, res, next ) => {
     }
 };
 
-module.exports = { sendMessage, getMessages, setMessageStatus };
+const getUserConversations = async ( req, res, next ) => {
+    try {
+        const { limit } = req.query;
+        const conversations = await fetchUserConversations( {
+            userId: req.user._id,
+            limit: limit ? parseInt( limit ) : 50
+        } );
+        res.json( { conversations } );
+    } catch ( error ) {
+        next( error );
+    }
+};
+
+module.exports = { sendMessage, getMessages, setMessageStatus, getUserConversations };

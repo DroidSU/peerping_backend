@@ -7,7 +7,7 @@ const searchUsers = async ( req, res, next ) => {
             return res.status( 400 ).json( { message: 'phoneNumber is required' } );
         }
 
-        const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const escapeRegex = ( value ) => value.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' );
         const safeQuery = escapeRegex( phoneNumber );
 
         const users = await User.find( { phoneNumber: { $regex: safeQuery, $options: 'i' } } )
