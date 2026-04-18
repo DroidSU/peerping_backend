@@ -80,9 +80,12 @@ const fetchMessages = async ( { userId, conversationId, after, limit = 100 } ) =
         .lean();
 };
 
-const updateMessageStatus = async ( { messageId, status } ) => {
+const updateMessageStatus = async ( { messageId, status, userId } ) => {
     const message = await Message.findOne( { messageId } );
     if ( !message ) throw new Error( 'Message not found' );
+
+    const isParticipant = [ message.sender.toString(), message.recipient.toString() ].includes( userId.toString() );
+    if ( !isParticipant ) throw new Error( 'Access denied' );
 
     if ( status === 'delivered' && message.status === 'sent' ) {
         message.status = 'delivered';

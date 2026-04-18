@@ -6,9 +6,20 @@ const logger = require( '../config/logger' );
 const userSocketMap = new Map();
 let io;
 
+const allowedSocketOrigins = process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split( ',' ).map( ( origin ) => origin.trim() ).filter( Boolean )
+    : [ 'http://localhost:3000' ];
+
 const initSocketServer = ( server ) => {
     io = new Server( server, {
-        cors: { origin: '*' },
+        cors: {
+            origin: ( origin, callback ) => {
+                if ( !origin ) return callback( null, true );
+                if ( allowedSocketOrigins.includes( origin ) ) return callback( null, true );
+                callback( new Error( 'Not allowed by CORS' ) );
+            },
+            credentials: true,
+        },
     } );
 
     io.use( async ( socket, next ) => {

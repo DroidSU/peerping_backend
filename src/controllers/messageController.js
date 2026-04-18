@@ -41,7 +41,7 @@ const setMessageStatus = async ( req, res, next ) => {
             return res.status( 400 ).json( { message: 'Invalid status' } );
         }
 
-        const message = await updateMessageStatus( { messageId, status } );
+        const message = await updateMessageStatus( { messageId, status, userId: req.user._id } );
         res.json( { success: true, message } );
     } catch ( error ) {
         next( error );
